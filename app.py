@@ -1,37 +1,12 @@
-from fastapi import FastAPI, Body
-from pydantic import BaseModel, Field
-from typing import List
-import boto3
-from botocore.client import Config as S3Config
+from fastapi import FastAPI
+
 from config import *
+from items import EditItem, GenerateItem, ResponseItem
+from pipelines import pipe_edit, pipe_generate
+from utils import upload_images, get_image
+from PIL import Image
 
 app = FastAPI()
-
-s3_config = S3Config(signature_version="s3v4")
-
-s3 = boto3.resource(
-    "s3",
-    aws_access_key_id=NEXT_PUBLIC_S3_ACCESS_KEY_ID,
-    aws_secret_access_key=NEXT_PUBLIC_S3_SECRET_ACCESS_KEY,
-    config=s3_config
-)
-
-
-class GenerateItem(BaseModel):
-    title: str
-    color: str
-    desc: str
-
-    def get_prompt(self):
-        return f"title: {self.title}\ncolor: {self.color}\nstyle: {self.desc}"
-
-
-class EditItem(GenerateItem):
-    image: str
-
-
-class ResponseItem(BaseModel):
-    images: List[str]
 
 
 @app.post("/v1/generate", response_model=ResponseItem)
@@ -51,3 +26,19 @@ async def edit(item: EditItem):
     return {"images": [
         "20230127220712340.jpg"
     ]}
+
+
+@app.post("/v2/generate", response_model=ResponseItem)
+async def generatev2(item: GenerateItem):
+    images = pipe_generate(item.get_prompt())
+    filenames = upload_images(images)
+    return {"images": filenames}
+
+
+@app.post("/v2/edit", response_model=ResponseItem)
+async def editv2(item: EditItem):
+    source_image = get_image(item.image)
+    images = pipe_edit(source_image, item.source.get_prompt(),
+                       item.target.get_prompt())
+    filenames = upload_images(images)
+    return {"images": filenames}
