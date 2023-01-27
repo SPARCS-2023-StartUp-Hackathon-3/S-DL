@@ -4,7 +4,7 @@ import boto3
 from botocore.client import Config as S3Config
 from datetime import datetime
 import io
-from ..config import NEXT_PUBLIC_S3_ACCESS_KEY_ID, NEXT_PUBLIC_S3_BUCKET, NEXT_PUBLIC_S3_SECRET_ACCESS_KEY
+from config import NEXT_PUBLIC_S3_ACCESS_KEY_ID, NEXT_PUBLIC_S3_BUCKET, NEXT_PUBLIC_S3_SECRET_ACCESS_KEY
 
 s3_config = S3Config(signature_version="s3v4")
 
