@@ -1,14 +1,16 @@
 import torch
 from diffusers import CycleDiffusionPipeline, DDIMScheduler
-from config import DEVICE_ID, NUM_IMAGES_PER_PROMPT, NUM_INFERENCE_STEPS, MODEL_PATH
+from config import DEVICE_ID, NUM_IMAGES_PER_PROMPT, NUM_INFERENCE_STEPS, MODEL_PATH, DIFFUSION_PATH
 from PIL.Image import Image
 from typing import List
 
 
-scheduler = DDIMScheduler.from_pretrained(MODEL_PATH, subfolder="scheduler")
+scheduler = DDIMScheduler.from_pretrained(DIFFUSION_PATH, subfolder="scheduler")
 pipe = CycleDiffusionPipeline.from_pretrained(
-    MODEL_PATH, torch_dtype=torch.float16, scheduler=scheduler
-).to(f"cuda:{DEVICE_ID}")
+    DIFFUSION_PATH, torch_dtype=torch.float16, scheduler=scheduler
+)
+pipe.unet.load_attn_procs(MODEL_PATH)
+pipe.to(f"cuda:{DEVICE_ID}")
 
 
 
