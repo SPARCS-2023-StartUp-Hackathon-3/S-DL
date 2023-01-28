@@ -4,13 +4,17 @@
 
 **CloZ** is a clothing design system facilitated by natural language prompts. Cloz supports two main functions; **1) generating clothing images via natural language prompting. 2) editing generated images by replacing keywords from previous prompts.** 
 
-Inspired by [FACAD [1]](https://github.com/xuewyang/Fashion_Captioning), we first built the [nordstrom96568 dataset](https://huggingface.co/datasets/jasonchoi3/nordstrom96568), which consists of 96568 (prompt, clothing image) pairs. Then we trained [stable diffusion [2] 2.1](https://github.com/Stability-AI/stablediffusion) with our dataset to generate clothing images using prompts. The editing function was implemented by [CycleDiffusion [3]](https://github.com/ChenWu98/cycle-diffusion) and [Cross Attention Control [4]](https://arxiv.org/abs/2208.01626). Also, we designed the CloZ's web-based interface based on guidelines of prior research [6]. 
+Inspired by [FACAD [1]](https://github.com/xuewyang/Fashion_Captioning), we first built the [nordstrom96568 dataset](https://huggingface.co/datasets/jasonchoi3/nordstrom96568), which consists of 96568 (prompt, clothing image) pairs. Then we trained [stable diffusion [2] 2.1](https://github.com/Stability-AI/stablediffusion) with our dataset to generate clothing images using prompts. The editing function was implemented by [CycleDiffusion [3]](https://github.com/ChenWu98/cycle-diffusion). Also, we designed the CloZ's web-based interface based on guidelines of prior research [4]. 
 
 To the best of our knowledge, CloZ is the first clothing design system using natural language guidance.
 
 ## Requirements
 
-TBA
+```
+# Please setup CUDA, torch first. 
+
+pip install requirements.txt
+```
 
 
 ## Development
@@ -26,6 +30,4 @@ TBA
 
 [3] Wu, C. H., & De la Torre, F. (2022). Unifying Diffusion Models' Latent Space, with Applications to CycleDiffusion and Guidance. arXiv preprint arXiv:2210.05559.
 
-[4] Hertz, A., Mokady, R., Tenenbaum, J., Aberman, K., Pritch, Y., & Cohen-Or, D. (2022). Prompt-to-prompt image editing with cross attention control. arXiv preprint arXiv:2208.01626.
-
-[5] Ko, H. K., Park, G., Jeon, H., Jo, J., Kim, J., & Seo, J. (2022). Large-scale Text-to-Image Generation Models for Visual Artists' Creative Works. arXiv preprint arXiv:2210.08477.
+[4] Ko, H. K., Park, G., Jeon, H., Jo, J., Kim, J., & Seo, J. (2022). Large-scale Text-to-Image Generation Models for Visual Artists' Creative Works. arXiv preprint arXiv:2210.08477.
